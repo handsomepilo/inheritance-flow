@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>地政士專業案件辦理流程與文件指引</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Noto+Sans+TC:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="glow-bg"></div>
+    <div class="app-container">
+        <header>
+            <div class="logo">
+                <span class="logo-icon">⚖️</span>
+                <span class="logo-text">地政士專業服務</span>
+            </div>
+            <h1>不動產登記申辦流程指引</h1>
+            <p class="subtitle">地政士（代書）辦理不動產登記之標準化核心作業流程與應備文件檢核</p>
+            
+            <!-- Flow Switcher Tab Buttons -->
+            <div class="flow-switcher">
+                <button class="switcher-btn active" id="btn-inheritance">
+                    <span class="btn-icon">👨‍👩‍👧‍👦</span> 繼承登記辦理流程
+                </button>
+                <button class="switcher-btn" id="btn-gift">
+                    <span class="btn-icon">🎁</span> 贈與移轉辦理流程
+                </button>
+                <button class="switcher-btn" id="btn-sale">
+                    <span class="btn-icon">🏠</span> 買賣移轉辦理流程
+                </button>
+            </div>
+
+            <div class="header-illustration">
+                <img src="cover.png" alt="Legal and Real Estate Cover" class="cover-image">
+            </div>
+        </header>
+
+        <!-- Case Control Center -->
+        <section class="case-control-card card">
+            <div class="case-header">
+                <h2><span class="icon">💼</span> 案件管理控制中心</h2>
+                <div class="case-actions">
+                    <button class="action-btn btn-secondary" id="btn-new-case"><span class="btn-subicon">➕</span> 新增案件</button>
+                    <button class="action-btn btn-danger" id="btn-delete-case"><span class="btn-subicon">🗑️</span> 刪除案件</button>
+                    <button class="action-btn btn-primary" id="btn-print-report"><span class="btn-subicon">🖨️</span> 匯出列印報告</button>
+                </div>
+            </div>
+            <div class="case-selector-bar">
+                <div class="select-wrapper">
+                    <label for="case-select">選擇目前辦理案件：</label>
+                    <select id="case-select" class="styled-select">
+                        <!-- Dynamically loaded by JS -->
+                    </select>
+                </div>
+                <div class="case-summary-info">
+                    <span>案件類型：<strong id="case-summary-type">-</strong></span>
+                    <span>辦理進度：<strong id="case-summary-progress" class="text-success">0%</strong></span>
+                </div>
+            </div>
+            <div class="case-memo-block">
+                <label for="case-notes">📝 案件備忘錄與客戶資料備註 (系統將即時自動儲存)：</label>
+                <textarea id="case-notes" placeholder="在此輸入本案相關資訊（例如：繼承人聯絡電話、財產明細、約定申辦期限或待補資料等）..."></textarea>
+            </div>
+        </section>
+
+        <main class="main-content">
+            <!-- Left Panel: Flowchart Timeline -->
+            <section class="flow-panel card" id="flowchart-section">
+                <h2>辦理進度流程</h2>
+                <div class="flow-timeline" id="timeline-container">
+                    <!-- Dynamic steps rendered by JS -->
+                </div>
+            </section>
+
+            <!-- Right Panel: Step Details -->
+            <section class="details-panel card" id="details-section">
+                <div class="details-header">
+                    <div class="stage-tag" id="stage-tag">階段 1 / 6</div>
+                    <h2 id="details-title">載入中...</h2>
+                </div>
+
+                <div class="details-body">
+                    <!-- Info Meta -->
+                    <div class="info-meta">
+                        <div class="meta-item">
+                            <span class="meta-icon">⏳</span>
+                            <div class="meta-text">
+                                <strong>預估作業時間</strong>
+                                <span id="meta-time">載入中...</span>
+                            </div>
+                        </div>
+                        <div class="meta-item">
+                            <span class="meta-icon">🏢</span>
+                            <div class="meta-text">
+                                <strong>申辦/受理機關</strong>
+                                <span id="meta-agency">載入中...</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Detail Section: Agent Task -->
+                    <div class="detail-block">
+                        <h3 class="block-title"><span class="icon">📋</span> 地政士核心任務 (Agent Action)</h3>
+                        <p id="details-desc" class="block-text">載入中...</p>
+                    </div>
+
+                    <!-- Detail Section: Documents -->
+                    <div class="detail-block">
+                        <h3 class="block-title"><span class="icon">📂</span> 應備文件清單 (Required Documents)</h3>
+                        <ul class="doc-list" id="details-docs">
+                            <!-- Populated by JS -->
+                        </ul>
+                    </div>
+
+                    <!-- Detail Section: Tips -->
+                    <div class="detail-block alert-block" id="details-tips-container">
+                        <h3 class="block-title text-warning"><span class="icon">⚠️</span> 專業提醒與法規注意事項</h3>
+                        <p id="details-tips" class="block-text">載入中...</p>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <!-- Document Checklist Section -->
+        <section class="checklist-section card">
+            <h2 id="checklist-title">案件必備文件查核清單 (Interactive Checklist)</h2>
+            <p class="checklist-desc">勾選您目前已收集的資料，本清單將會顯示收集進度。這是地政士辦理不動產登記最完整的檢核項目。</p>
+            
+            <div class="checklist-grid" id="checklist-container">
+                <!-- Dynamically populated by JS -->
+            </div>
+
+            <!-- Progress Bar -->
+            <div class="progress-container">
+                <div class="progress-text">
+                    <span>文件整理進度: <strong id="progress-percent">0%</strong></span>
+                    <span>(<span id="progress-count">0</span> / <span id="progress-total">12</span>)</span>
+                </div>
+                <div class="progress-track">
+                    <div class="progress-bar" id="progress-bar"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- External Links Section -->
+        <section class="links-section card">
+            <h2><span class="icon">🔗</span> 常用地政與稅務系統指引</h2>
+            <p class="links-desc">精選地政士辦理不動產登記、稅務與複丈最常使用之官方系統，支援一鍵開啟試算與申請作業。</p>
+            <div class="links-grid">
+                <a href="https://easymap.moi.gov.tw/BSWeb/" target="_blank" class="link-card">
+                    <span class="link-icon">🗺️</span>
+                    <div class="link-info">
+                        <h4>土地複丈分割試算</h4>
+                        <p>內政部地籍圖資網路便民服務系統</p>
+                    </div>
+                </a>
+                <a href="https://w3.land.gov.taipei/calexp/#/mortgage_setup" target="_blank" class="link-card">
+                    <span class="link-icon">🏢</span>
+                    <div class="link-info">
+                        <h4>台北地政規費試算</h4>
+                        <p>台北市政府地政局規費與設定試算系統</p>
+                    </div>
+                </a>
+                <a href="https://www.ttt.nat.gov.tw/" target="_blank" class="link-card">
+                    <span class="link-icon">📄</span>
+                    <div class="link-info">
+                        <h4>電子謄本申請</h4>
+                        <p>中華電信全國地政電子謄本全球資訊網</p>
+                    </div>
+                </a>
+                <a href="https://www2.land.ntpc.gov.tw/MASP/MASP08_NEW/MASP0801index.jsp" target="_blank" class="link-card">
+                    <span class="link-icon">🏛️</span>
+                    <div class="link-info">
+                        <h4>地政規費試算</h4>
+                        <p>新北市政府地政局規費試算專區</p>
+                    </div>
+                </a>
+                <a href="https://einvdonate.tax.ntpc.gov.tw/" target="_blank" class="link-card">
+                    <span class="link-icon">💰</span>
+                    <div class="link-info">
+                        <h4>新北稅捐計算系統</h4>
+                        <p>新北市地方稅試算與線上繳納、捐贈</p>
+                    </div>
+                </a>
+                <a href="https://cloud.land.gov.taipei/cloud/map/index.html?fun=g21" target="_blank" class="link-card">
+                    <span class="link-icon">📈</span>
+                    <div class="link-info">
+                        <h4>台北市土增稅試算</h4>
+                        <p>台北市地政影音與地理資訊土增稅專區</p>
+                    </div>
+                </a>
+                <a href="https://i.land.ntpc.gov.tw/iland/index.php/land-value/vatcal" target="_blank" class="link-card">
+                    <span class="link-icon">🏠</span>
+                    <div class="link-info">
+                        <h4>新北市土增稅試算</h4>
+                        <p>新北愛地籍土地增值稅線上估算系統</p>
+                    </div>
+                </a>
+                <a href="https://www.land.tycg.gov.tw/chaspx/SQry1.aspx/517" target="_blank" class="link-card">
+                    <span class="link-icon">🌾</span>
+                    <div class="link-info">
+                        <h4>桃園市土增稅試算</h4>
+                        <p>桃園市政府地政局土地增值稅試算服務</p>
+                    </div>
+                </a>
+                <a href="https://www.etax.nat.gov.tw/etwmain/tax-info/house-land-transfer-taxtation-calculation-area" target="_blank" class="link-card">
+                    <span class="link-icon">📑</span>
+                    <div class="link-info">
+                        <h4>財政部不動產移轉流程</h4>
+                        <p>買賣、贈與、繼承詳細流程與法規課稅專區</p>
+                    </div>
+                </a>
+            </div>
+        </section>
+    </div>
+
+    <!-- Floating Calculator Widget -->
+    <div class="calc-widget" id="calc-widget">
+        <button class="calc-fab" id="calc-fab" title="開啟規費與印花稅計算器">
+            <span class="fab-icon">💰</span>
+            <span class="fab-text">規費計算器</span>
+        </button>
+        <div class="calc-panel card" id="calc-panel">
+            <div class="calc-panel-header">
+                <h3><span class="icon">💰</span> 規費與印花稅試算</h3>
+                <button class="close-calc-btn" id="close-calc-btn">×</button>
+            </div>
+            <div class="calc-panel-body">
+                <div class="calc-input-group">
+                    <label for="calc-val-property">土地申報地價/房屋評定值總額 (元)：</label>
+                    <input type="number" id="calc-val-property" placeholder="請輸入土地申報地價與房屋評定現值加總" value="1000000" step="10000">
+                </div>
+                <div class="calc-input-group">
+                    <label for="calc-val-contract">公定契約金額 (元，算印花稅用)：</label>
+                    <input type="number" id="calc-val-contract" placeholder="請輸入公契契約總價" value="1000000" step="10000">
+                </div>
+                <div class="calc-input-group">
+                    <label for="calc-certificates">申辦所有權狀張數 (張)：</label>
+                    <input type="number" id="calc-certificates" placeholder="土地及建物所有權狀總張數" value="2" min="0">
+                </div>
+                <div class="calc-input-group">
+                    <label for="calc-scrivener-fee">地政士服務費用 (元)：</label>
+                    <input type="number" id="calc-scrivener-fee" placeholder="輸入預計收取之代書服務費" value="15000" step="1000">
+                </div>
+                
+                <button class="action-btn btn-primary w-100" id="btn-calculate-fees">開始計算</button>
+                
+                <div class="calc-results" id="calc-results">
+                    <div class="result-row">
+                        <span>登記規費 (申報價值 1‰)</span>
+                        <strong id="res-reg-fee">NT$ 1,000</strong>
+                    </div>
+                    <div class="result-row">
+                        <span>印花稅 (公契金額 1‰)</span>
+                        <strong id="res-stamp-tax">NT$ 1,000</strong>
+                    </div>
+                    <div class="result-row">
+                        <span>書狀工本費 (每張 80元)</span>
+                        <strong id="res-cert-fee">NT$ 160</strong>
+                    </div>
+                    <div class="result-row">
+                        <span>地政士服務費 (代辦費)</span>
+                        <strong id="res-scrivener-fee">NT$ 15,000</strong>
+                    </div>
+                    <hr class="calc-divider">
+                    <div class="result-row highlight">
+                        <span>預估總費用</span>
+                        <strong id="res-total-fee" class="text-accent">NT$ 17,160</strong>
+                    </div>
+                    <button class="action-btn btn-secondary w-100 mt-2" id="btn-apply-calc-to-case">將此費用導入案件備忘錄</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- New Case Modal -->
+    <div class="modal" id="new-case-modal">
+        <div class="modal-content card">
+            <div class="modal-header">
+                <h3>新建辦理案件</h3>
+                <button class="close-modal-btn" id="close-modal-btn">×</button>
+            </div>
+            <div class="modal-body">
+                <div class="modal-input-group">
+                    <label for="new-case-name">案件名稱 / 客戶姓名：</label>
+                    <input type="text" id="new-case-name" placeholder="例如：張先生繼承登記案">
+                </div>
+                <div class="modal-input-group">
+                    <label for="new-case-flow">案件流程類型：</label>
+                    <select id="new-case-flow" class="styled-select">
+                        <option value="inheritance">👨‍👩‍👧‍👦 繼承登記辦理流程</option>
+                        <option value="gift">🎁 贈與移轉辦理流程</option>
+                        <option value="sale">🏠 買賣移轉辦理流程</option>
+                    </select>
+                </div>
+                <button class="action-btn btn-primary w-100" id="btn-save-new-case">確認建立</button>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>© 2026 地政士辦理不動產登記核心流程指引與文件檢核系統</p>
+    </footer>
+
+    <script src="app.js"></script>
+</body>
+</html>
